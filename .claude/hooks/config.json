@@ -1,0 +1,11 @@
+{
+  "project_dir": "C:/Users/bngkim",
+  "lock_timeout": 60,
+  "max_wait_time": 120,
+  "cleanup_interval": 300,
+  "lock_file_extension": ".lock",
+  "immediate_unlock_enabled": true,
+  "session_cleanup_enabled": true,
+  "completion_status_timeout": 5,
+  "version": "2.0.0"
+}

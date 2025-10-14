@@ -1,0 +1,64 @@
+{
+  "permissions": {
+    "allow": [],
+    "deny": []
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \".claude/hooks/file-lock-check.py\"",
+            "timeout": 120
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \".claude/hooks/file-lock-check.py\"",
+            "timeout": 120
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \".claude/hooks/file-lock-manager.py\"",
+            "timeout": 30
+          }
+        ]
+      },
+      {
+        "matcher": "CompleteEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \".claude/hooks/file-lock-manager.py\"",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \".claude/hooks/session-unlock.py\"",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}
