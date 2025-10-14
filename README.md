@@ -14,10 +14,10 @@
 ## Recommended Workflow
 
 ```mermaid
-graph TD
-    A[/init target-folder] --> B[/coreplan plan-file.txt]
-    B --> C[/breakdown-loop]
-    C --> D[/run-tasks]
+graph TD;
+    A[/init target-folder] --> B[/coreplan plan-file.txt];
+    B --> C[/breakdown-loop];
+    C --> D[/run-tasks];
 ```
 
 ### Quick Start

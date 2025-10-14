@@ -1,8 +1,8 @@
 {
-  "file_path": "D:\\MCP\\plan\\.claude\\hooks\\manual-unlock.py",
+  "file_path": "D:\\MCP\\plan\\README.md",
   "tool_name": "Edit",
-  "session_id": "ca3c2e05-3cd0-4e94-ade8-8ed503af1bc6",
-  "timestamp": 1760431552.1324089,
+  "session_id": "64b53fdd-8d05-47c6-a0a6-e2f3f096087d",
+  "timestamp": 1760432047.1310086,
   "lock_duration": 60,
   "status": "active",
   "unlock_immediately": false,

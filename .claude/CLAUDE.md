@@ -1,3 +1,4 @@
+- Always use Bahasa Indonesia Casual
 - Think harder like your life depends on it
 - Think clearly before coding.
 - Write clean and maintainable code.
