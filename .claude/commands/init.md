@@ -26,8 +26,10 @@ Initialize project dengan database schema dan structure generation dari plan fil
 ## Notes:
 - Generate ANALYSIS dan PLANNING documents only
 - Tidak create actual project files
-- Output disimpan di `.ai/` folder dengan subfolder sesuai target-folder
+- Output disimpan sesuai agent definition:
+  - `database-schema-designer` → `.ai/schema/` (dengan AI-optimized structure)
+  - `project-structure-generator` → `.ai/structure/structure.md` (simple directory tree)
 - Agents dijalankan secara PARALLEL untuk efisiensi
 - **Target-folder parameter diteruskan ke agents:**
-  - `database-schema-designer` menerima PRD content + target-folder untuk schema generation
-  - `project-structure-generator` menerima PRD content + target-folder untuk digunakan sebagai **root directory name** dalam output tree structure
+  - `database-schema-designer` menerima PRD content untuk generate schema (mengikuti standard path `.ai/schema/`)
+  - `project-structure-generator` menerima PRD content + target-folder untuk digunakan sebagai **root directory name** dalam output tree structure (disimpan di `.ai/structure/structure.md`)
