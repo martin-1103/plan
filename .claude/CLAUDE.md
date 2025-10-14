@@ -10,4 +10,3 @@
 - Be honest and critical — give reasoning, not blind agreement.
 
 @LEARN.md
-@LOCK.md

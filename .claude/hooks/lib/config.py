@@ -15,7 +15,14 @@ class Config:
         "immediate_unlock_enabled": True,
         "session_cleanup_enabled": True,
         "completion_status_timeout": 5,
-        "version": "2.0.0"
+        "version": "2.0.0",
+        "logging": {
+            "enabled": True,
+            "level": "info",
+            "log_to_file": True,
+            "log_to_console": True,
+            "log_dir": "logs"
+        }
     }
 
     def __init__(self, project_dir: Path = None):
