@@ -14,7 +14,9 @@ Initialize project dengan database schema dan structure generation dari plan fil
 2. Spawn PARALLEL agents bersamaan:
    - database-schema-designer agent untuk generate optimal database schema
    - project-structure-generator agent untuk generate optimal project structure
-3. Simpan hasil analisis di folder `.ai/`
+3. Simpan hasil analisis di folder `.ai/` dengan struktur:
+   - `.ai/schema/[target-folder]/` untuk database schema
+   - `.ai/structure/` untuk project structure
 
 ## Examples:
 ```bash
@@ -26,5 +28,10 @@ Initialize project dengan database schema dan structure generation dari plan fil
 ## Notes:
 - Generate ANALYSIS dan PLANNING documents only
 - Tidak create actual project files
-- Output disimpan di `.ai/` folder untuk review dan implementation
+- Output disimpan di `.ai/` folder dengan subfolder sesuai target-folder
 - Agents dijalankan secara PARALLEL untuk efisiensi
+- **Target-folder parameter diteruskan ke agents:**
+  - `database-schema-designer` menerima PRD content + target-folder untuk schema generation
+  - `project-structure-generator` menerima PRD content + target-folder untuk digunakan sebagai **root directory name** dalam output tree structure
+- Hasil schema disimpan di `.ai/schema/[target-folder]/`
+- Hasil structure disimpan di `.ai/structure/structure.md`
