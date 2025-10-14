@@ -1,0 +1,112 @@
+{
+  "table_name": "users",
+  "description": "User accounts with authentication and profile information",
+  "engine": "InnoDB",
+  "charset": "utf8mb4",
+  "collation": "utf8mb4_unicode_ci",
+  "columns": {
+    "id": {
+      "type": "BIGINT",
+      "unsigned": true,
+      "auto_increment": true,
+      "nullable": false,
+      "description": "Primary key for user records"
+    },
+    "username": {
+      "type": "VARCHAR",
+      "length": 50,
+      "nullable": false,
+      "unique": true,
+      "description": "Unique username for login"
+    },
+    "email": {
+      "type": "VARCHAR",
+      "length": 100,
+      "nullable": false,
+      "unique": true,
+      "description": "Unique email address"
+    },
+    "password_hash": {
+      "type": "VARCHAR",
+      "length": 255,
+      "nullable": false,
+      "description": "Hashed password using bcrypt"
+    },
+    "first_name": {
+      "type": "VARCHAR",
+      "length": 50,
+      "nullable": true,
+      "description": "User's first name"
+    },
+    "last_name": {
+      "type": "VARCHAR",
+      "length": 50,
+      "nullable": true,
+      "description": "User's last name"
+    },
+    "phone": {
+      "type": "VARCHAR",
+      "length": 20,
+      "nullable": true,
+      "description": "Phone number"
+    },
+    "avatar_url": {
+      "type": "VARCHAR",
+      "length": 255,
+      "nullable": true,
+      "description": "Profile image URL"
+    },
+    "status": {
+      "type": "ENUM",
+      "values": ["active", "inactive", "suspended", "pending"],
+      "default": "active",
+      "nullable": false,
+      "description": "User account status"
+    },
+    "email_verified": {
+      "type": "BOOLEAN",
+      "default": false,
+      "nullable": false,
+      "description": "Email verification status"
+    },
+    "last_login_at": {
+      "type": "TIMESTAMP",
+      "nullable": true,
+      "description": "Last login timestamp"
+    },
+    "password_changed_at": {
+      "type": "TIMESTAMP",
+      "nullable": false,
+      "default": "CURRENT_TIMESTAMP",
+      "description": "Last password change timestamp"
+    },
+    "created_by": {
+      "type": "BIGINT",
+      "unsigned": true,
+      "nullable": true,
+      "description": "User ID who created this account"
+    },
+    "created_at": {
+      "type": "TIMESTAMP",
+      "nullable": false,
+      "default": "CURRENT_TIMESTAMP",
+      "description": "Account creation timestamp"
+    },
+    "updated_at": {
+      "type": "TIMESTAMP",
+      "nullable": false,
+      "default": "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+      "description": "Last update timestamp"
+    },
+    "deleted_at": {
+      "type": "TIMESTAMP",
+      "nullable": true,
+      "description": "Soft delete timestamp"
+    }
+  },
+  "primary_key": ["id"],
+  "unique_keys": [
+    ["username"],
+    ["email"]
+  ]
+}

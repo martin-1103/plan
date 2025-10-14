@@ -91,19 +91,17 @@ When invoked:
 ```
 .ai/schema/
 ├── index.json                     # Project overview with table list
-├── [project]/
-│   ├── index.json                # Project tables list
-│   ├── users/
-│   │   ├── entity.json          # Users table definition
-│   │   ├── relationships.json   # Users relationships only
-│   │   └── indexes.json         # Users indexes only
-│   ├── products/
-│   │   ├── entity.json
-│   │   ├── relationships.json
-│   │   └── indexes.json
-│   └── ddl/                     # Optional: SQL scripts for implementation
-│       ├── users.sql
-│       └── products.sql
+├── users/
+│   ├── entity.json              # Users table definition
+│   ├── relationships.json       # Users relationships only
+│   └── indexes.json             # Users indexes only
+├── products/
+│   ├── entity.json
+│   ├── relationships.json
+│   └── indexes.json
+└── ddl/                         # Optional: SQL scripts for implementation
+    ├── users.sql
+    └── products.sql
 ```
 
 Always provide reasoning behind design decisions and consider scalability implications.
