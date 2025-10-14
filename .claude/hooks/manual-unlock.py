@@ -10,7 +10,7 @@ def get_config():
     """Load lock configuration"""
     # Use current working directory for flexibility
     project_dir = Path.cwd()
-    config_path = project_dir / '.claude' / 'lock' / 'config.json'
+    config_path = project_dir / '.claude' / 'hooks' / 'config.json'
     try:
         with open(config_path, 'r') as f:
             return json.load(f)
@@ -29,7 +29,7 @@ def get_lock_path(file_path):
 
     # Create hash of file path for safe filename
     file_hash = hashlib.md5(str(file_path).encode()).hexdigest()
-    lock_dir = project_dir / '.claude' / 'lock' / 'files'
+    lock_dir = project_dir / '.claude' / 'hooks' / 'files'
 
     return lock_dir / f"{file_hash}{config['lock_file_extension']}"
 
@@ -65,7 +65,7 @@ def unlock_all_session_files(session_id):
     """Unlock all files locked by specific session"""
     config = get_config()
     project_dir = Path.cwd()
-    lock_dir = project_dir / '.claude' / 'lock' / 'files'
+    lock_dir = project_dir / '.claude' / 'hooks' / 'files'
 
     if not lock_dir.exists():
         return 0, "Lock directory not found"
