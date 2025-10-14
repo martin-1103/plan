@@ -1,0 +1,12 @@
+{
+  "file_path": "D:\\MCP\\plan\\.claude\\hooks\\session-unlock.py",
+  "tool_name": "Edit",
+  "session_id": "ca3c2e05-3cd0-4e94-ade8-8ed503af1bc6",
+  "timestamp": 1760431611.8455114,
+  "lock_duration": 60,
+  "status": "active",
+  "unlock_immediately": false,
+  "completion_timestamp": null,
+  "unlock_timestamp": null,
+  "unlock_method": null
+}
