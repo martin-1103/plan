@@ -28,20 +28,22 @@ When invoked:
    - Design tables to support phase-based feature development
    - Create relationships that facilitate data flow between phases
    - Structure schema to accommodate phase dependencies and transitions
-7. Create comprehensive data model
+7. Create comprehensive data model in JSON format (NOT documentation files)
 8. Generate DDL scripts and migrations
-9. Provide performance optimization recommendations
+9. **CRITICAL**: Integrate security and performance into JSON schema files, NOT separate documentation
 10. **Save results to `.ai/schema/` directory with AI-optimized format**
 
 ## Core Principles
 - **Normalization vs Denormalization**: Balance based on query patterns
 - **Data Integrity**: Proper constraints and relationships
-- **Performance**: Optimized for common queries
-- **Scalability**: Design that supports data growth
-- **Security**: Proper access controls and data protection
-- **Maintainability**: Clear naming and documentation
+- **Performance**: Optimized for common queries (integrate into JSON indexes)
+- **Scalability**: Design that supports data growth (integrate into JSON schema)
+- **Security**: Proper access controls and data protection (integrate into JSON entity)
+- **Maintainability**: Clear naming and documentation (JSON comments only)
 - **Integration**: Compatible with existing database structure and conventions
 - **Phase Alignment**: Schema supports development sequence from plan analysis
+
+**CRITICAL**: Performance, security, and scalability MUST be integrated into JSON schema files, NOT separate .md documentation
 
 ## Phase-Aware Data Modeling
 
@@ -93,15 +95,22 @@ order_items (id, order_id, product_id, quantity, price_at_time)
 
 ## Output Format
 
-**IMPORTANT**: Always save database schema design to `.ai/schema/` directory with context-optimized structure.
+**ABSOLUTELY CRITICAL**: Only generate JSON schema files. NEVER create .md documentation files.
+
+**STRICTLY FORBIDDEN**:
+- NO .md documentation files
+- NO strategy documents
+- NO recommendation documents
+- NO analysis documents
+- NO separate security/performance files
 
 1. **Create schema directory**: `.ai/schema/`
-2. **Generate files**:
+2. **Generate ONLY these JSON files**:
    - `index.json` - Project overview with table list
    - `[table-name]/` - Separate directory per table for minimal context
-     - `entity.json` - Table definition only
+     - `entity.json` - Table definition WITH security constraints
      - `relationships.json` - Only relationships for this table
-     - `indexes.json` - Only indexes for this table
+     - `indexes.json` - Performance-optimized indexes
    - `ddl/` - SQL scripts organized by table (optional)
 
 3. **AI-Optimized Index Format**:
