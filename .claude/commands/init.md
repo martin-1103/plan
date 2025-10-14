@@ -1,4 +1,4 @@
-Initialize project dengan database schema dan structure generation dari plan file.
+Initialize project dengan comprehensive planning, database schema dan structure generation.
 
 ## Usage:
 ```bash
@@ -10,10 +10,10 @@ Initialize project dengan database schema dan structure generation dari plan fil
 - `target-folder`: Nama target folder untuk project (required)
 
 ## What it does:
-1. Baca dan analisis PRD/plan file
-2. Spawn PARALLEL agents bersamaan:
-   - database-schema-designer agent untuk generate optimal database schema
-   - project-structure-generator agent untuk generate optimal project structure
+1. **Run plan-analyzer agent** untuk analyze requirements dan generate development phases
+2. **Spawn PARALLEL agents** dengan plan analysis context:
+   - database-schema-designer agent untuk generate phase-aware database schema
+   - project-structure-generator agent untuk generate phase-aware project structure
 
 
 ## Examples:
@@ -24,12 +24,15 @@ Initialize project dengan database schema dan structure generation dari plan fil
 ```
 
 ## Notes:
-- Generate ANALYSIS dan PLANNING documents only
+- Generate comprehensive ANALYSIS dan PLANNING documents
 - Tidak create actual project files
 - Output disimpan sesuai agent definition:
-  - `database-schema-designer` → `.ai/schema/` (dengan AI-optimized structure)
-  - `project-structure-generator` → `.ai/structure/structure.md` (simple directory tree)
-- Agents dijalankan secara PARALLEL untuk efisiensi
+  - `plan-analyzer` → `.ai/plan/` (development phases dan roadmap)
+  - `database-schema-designer` → `.ai/schema/` (phase-aware database schema)
+  - `project-structure-generator` → `.ai/structure/structure.md` (phase-aware directory structure)
+- **Plan analyzer runs FIRST** untuk generate development context
+- Database dan structure agents dijalankan secara PARALLEL dengan plan analysis context
 - **Target-folder parameter diteruskan ke agents:**
-  - `database-schema-designer` menerima PRD content untuk generate schema (mengikuti standard path `.ai/schema/`)
-  - `project-structure-generator` menerima PRD content + target-folder untuk digunakan sebagai **root directory name** dalam output tree structure (disimpan di `.ai/structure/structure.md`)
+  - `plan-analyzer` menerima PRD content untuk generate development phases
+  - `database-schema-designer` menerima plan analysis context untuk generate phase-aware schema
+  - `project-structure-generator` menerima plan analysis context + target-folder untuk generate phase-aware structure
