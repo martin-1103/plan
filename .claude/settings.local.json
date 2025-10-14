@@ -1,13 +1,4 @@
 {
-  "permissions": {
-    "allow": [
-      "Read(//d/Project/pos_ve/**)",
-      "Bash(claude:*)",
-      "Bash(node:*)"
-    ],
-    "deny": [],
-    "ask": []
-  },
   "hooks": {
     "PreToolUse": [
       {
