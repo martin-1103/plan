@@ -1,22 +1,17 @@
 {
   "permissions": {
-    "allow": [],
-    "deny": []
+    "allow": [
+      "Read(//d/Project/pos_ve/**)",
+      "Bash(claude:*)",
+      "Bash(node:*)"
+    ],
+    "deny": [],
+    "ask": []
   },
   "hooks": {
     "PreToolUse": [
       {
         "matcher": "Read",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python \".claude/hooks/file-lock-check.py\"",
-            "timeout": 120
-          }
-        ]
-      },
-      {
-        "matcher": "Write|Edit",
         "hooks": [
           {
             "type": "command",
@@ -54,7 +49,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python \".claude/hooks/session-unlock.py\"",
+            "command": "python \"D:/Project/pos_ve/.claude/hooks/session-unlock.py\"",
             "timeout": 30
           }
         ]

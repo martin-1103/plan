@@ -6,53 +6,16 @@ import time
 import hashlib
 from pathlib import Path
 
-def detect_project_dir():
-    """Automatically detect project directory"""
-    # Try current working directory first
-    current_dir = Path.cwd()
-
-    # Check if .claude directory exists in current or parent directories
-    search_dir = current_dir
-    max_levels = 10  # Prevent infinite loop
-
-    for _ in range(max_levels):
-        claude_dir = search_dir / '.claude'
-        if claude_dir.exists() and claude_dir.is_dir():
-            return search_dir
-
-        # Move to parent directory
-        parent = search_dir.parent
-        if parent == search_dir:  # Reached root directory
-            break
-        search_dir = parent
-
-    # Fallback to user home directory
-    try:
-        import os
-        home_dir = Path(os.path.expanduser('~'))
-        if home_dir.exists():
-            return home_dir
-    except:
-        pass
-
-    # Last resort - current working directory
-    return Path.cwd()
-
 def get_config():
     """Load lock configuration"""
-    # Auto-detect project directory
-    project_dir = detect_project_dir()
-    config_path = project_dir / '.claude' / 'hooks' / 'config.json'
+    # Use current working directory for flexibility
+    project_dir = Path.cwd()
+    config_path = project_dir / '.claude' / 'lock' / 'config.json'
     try:
         with open(config_path, 'r') as f:
-            config = json.load(f)
-            # Ensure project_dir is set in config
-            if 'project_dir' not in config:
-                config['project_dir'] = str(project_dir)
-            return config
+            return json.load(f)
     except:
         return {
-            "project_dir": str(detect_project_dir()),
             "lock_timeout": 60,
             "max_wait_time": 120,
             "cleanup_interval": 300,
@@ -62,7 +25,7 @@ def get_config():
 def get_lock_path(file_path):
     """Generate lock file path for given file"""
     config = get_config()
-    project_dir = Path(config['project_dir'])
+    project_dir = Path.cwd()
 
     # Create hash of file path for safe filename
     file_hash = hashlib.md5(str(file_path).encode()).hexdigest()
@@ -101,7 +64,7 @@ def unlock_file(file_path, session_id, unlock_method="manual"):
 def unlock_all_session_files(session_id):
     """Unlock all files locked by specific session"""
     config = get_config()
-    project_dir = Path(config['project_dir'])
+    project_dir = Path.cwd()
     lock_dir = project_dir / '.claude' / 'lock' / 'files'
 
     if not lock_dir.exists():

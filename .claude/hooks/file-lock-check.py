@@ -7,53 +7,16 @@ import hashlib
 import stat
 from pathlib import Path
 
-def detect_project_dir():
-    """Automatically detect project directory"""
-    # Try current working directory first
-    current_dir = Path.cwd()
-
-    # Check if .claude directory exists in current or parent directories
-    search_dir = current_dir
-    max_levels = 10  # Prevent infinite loop
-
-    for _ in range(max_levels):
-        claude_dir = search_dir / '.claude'
-        if claude_dir.exists() and claude_dir.is_dir():
-            return search_dir
-
-        # Move to parent directory
-        parent = search_dir.parent
-        if parent == search_dir:  # Reached root directory
-            break
-        search_dir = parent
-
-    # Fallback to user home directory
-    try:
-        import os
-        home_dir = Path(os.path.expanduser('~'))
-        if home_dir.exists():
-            return home_dir
-    except:
-        pass
-
-    # Last resort - current working directory
-    return Path.cwd()
-
 def get_config():
     """Load lock configuration"""
-    # Auto-detect project directory
-    project_dir = detect_project_dir()
-    config_path = project_dir / '.claude' / 'hooks' / 'config.json'
+    # Use current working directory for flexibility
+    project_dir = Path.cwd()
+    config_path = project_dir / '.claude' / 'lock' / 'config.json'
     try:
         with open(config_path, 'r') as f:
-            config = json.load(f)
-            # Ensure project_dir is set in config
-            if 'project_dir' not in config:
-                config['project_dir'] = str(project_dir)
-            return config
+            return json.load(f)
     except:
         return {
-            "project_dir": str(detect_project_dir()),
             "lock_timeout": 60,
             "max_wait_time": 120,
             "cleanup_interval": 300,
@@ -63,7 +26,7 @@ def get_config():
 def get_lock_path(file_path):
     """Generate lock file path for given file"""
     config = get_config()
-    project_dir = Path(config['project_dir'])
+    project_dir = Path.cwd()
 
     # Create hash of file path for safe filename
     file_hash = hashlib.md5(str(file_path).encode()).hexdigest()
@@ -167,7 +130,7 @@ def wait_for_lock(lock_path, config, session_id):
 def cleanup_expired_locks():
     """Clean up expired lock files"""
     config = get_config()
-    project_dir = Path(config['project_dir'])
+    project_dir = Path.cwd()
     lock_dir = project_dir / '.claude' / 'lock' / 'files'
 
     if not lock_dir.exists():
@@ -189,36 +152,6 @@ def cleanup_expired_locks():
             except:
                 pass
 
-def create_lock(file_path, tool_name, session_id):
-    """Create a lock file for the given file"""
-    config = get_config()
-    lock_path = get_lock_path(file_path)
-
-    # Ensure lock directory exists
-    lock_path.parent.mkdir(parents=True, exist_ok=True)
-
-    # Create enhanced lock data with session tracking
-    lock_data = {
-        "file_path": str(file_path),
-        "tool_name": tool_name,
-        "session_id": session_id,
-        "timestamp": time.time(),
-        "lock_duration": config['lock_timeout'],
-        "status": "active",
-        "completion_timestamp": None,
-        "unlock_timestamp": None,
-        "unlock_method": None
-    }
-
-    try:
-        # Write lock file
-        lock_path.write_text(json.dumps(lock_data, indent=2))
-        print(f"Created lock for file: {file_path} (Session: {session_id[:8]}...)")
-        return True
-    except Exception as e:
-        print(f"Failed to create lock file: {e}", file=sys.stderr)
-        return False
-
 def main():
     # Load input from stdin
     try:
@@ -231,88 +164,44 @@ def main():
     tool_input = input_data.get("tool_input", {})
     session_id = input_data.get("session_id", "")
 
-    # Process Read operations (check lock)
-    if tool_name == "Read":
-        file_path = tool_input.get("file_path", "")
-        if not file_path:
-            sys.exit(0)
-
-        # Get configuration
-        config = get_config()
-
-        # Clean up expired locks periodically
-        cleanup_expired_locks()
-
-        # Get lock file path
-        lock_path = get_lock_path(file_path)
-
-        # Check if file is locked
-        if is_lock_valid(lock_path, config):
-            print(f"File is locked, waiting for release: {file_path}", file=sys.stderr)
-
-            # Wait for lock to be released
-            if wait_for_lock(lock_path, config, session_id):
-                print(f"Lock released, proceeding with read: {file_path}")
-            else:
-                # Timeout reached, deny the operation
-                output = {
-                    "hookSpecificOutput": {
-                        "hookEventName": "PreToolUse",
-                        "permissionDecision": "deny",
-                        "permissionDecisionReason": f"File {file_path} is locked and wait timeout exceeded"
-                    }
-                }
-                print(json.dumps(output))
-                sys.exit(0)
-
-        # File is not locked, allow the operation
+    # Only process Read operations
+    if tool_name != "Read":
         sys.exit(0)
 
-    # Process Write/Edit operations (create lock)
-    elif tool_name in ["Write", "Edit"]:
-        file_path = tool_input.get("file_path", "")
-        if not file_path:
-            sys.exit(0)
+    file_path = tool_input.get("file_path", "")
+    if not file_path:
+        sys.exit(0)
 
-        # Get configuration
-        config = get_config()
+    # Get configuration
+    config = get_config()
 
-        # Clean up expired locks
-        cleanup_expired_locks()
+    # Clean up expired locks periodically
+    cleanup_expired_locks()
 
-        # Get lock file path
-        lock_path = get_lock_path(file_path)
+    # Get lock file path
+    lock_path = get_lock_path(file_path)
 
-        # Check if file is already locked by another session
-        if is_lock_valid(lock_path, config):
-            print(f"File is locked, waiting for release: {file_path}", file=sys.stderr)
+    # Check if file is locked
+    if is_lock_valid(lock_path, config):
+        print(f"File is locked, waiting for release or immediate unlock: {file_path}", file=sys.stderr)
 
-            # Wait for lock to be released
-            if wait_for_lock(lock_path, config, session_id):
-                print(f"Lock released, creating new lock for {file_path}")
-            else:
-                # Timeout reached, deny the operation
-                output = {
-                    "hookSpecificOutput": {
-                        "hookEventName": "PreToolUse",
-                        "permissionDecision": "deny",
-                        "permissionDecisionReason": f"File {file_path} is locked and wait timeout exceeded"
-                    }
-                }
-                print(json.dumps(output))
-                sys.exit(0)
-
-        # Create lock for the file
-        if create_lock(file_path, tool_name, session_id):
-            # Success - lock created, allow operation
-            sys.exit(0)
+        # Wait for lock to be released with immediate unlock support
+        if wait_for_lock(lock_path, config, session_id):
+            print(f"Lock released (may have been immediately unlocked), proceeding with read: {file_path}")
         else:
-            print(f"Failed to create lock for file: {file_path}", file=sys.stderr)
-            sys.exit(1)
+            # Timeout reached, deny the operation
+            output = {
+                "hookSpecificOutput": {
+                    "hookEventName": "PreToolUse",
+                    "permissionDecision": "deny",
+                    "permissionDecisionReason": f"File {file_path} is locked and wait timeout exceeded"
+                }
+            }
+            print(json.dumps(output))
+            sys.exit(0)
 
-    else:
-        # Other tool types - no action needed
-        sys.exit(0)
+    # File is not locked, allow the operation
+    sys.exit(0)
 
 if __name__ == "__main__":
     main()
