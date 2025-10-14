@@ -23,11 +23,19 @@
       "tags": ["windows", "process", "emergency"],
       "priority": 9,
       "usage_count": 0
+      },
+    "init_command_misunderstanding": {
+      "trigger": "/init.*target folder.*create files|generate project structure in filesystem",
+      "solution": "1. Understand that /init generates ANALYSIS documents in .ai/ folder, not actual project files\n2. database-schema-designer → generates schema analysis in .ai/database/ folder\n3. project-structure-generator → generates structure analysis in .ai/structure/ folder\n4. NEVER create actual project folders/files during /init command\n5. Output should be planning/analysis documents, not implementation",
+      "action": "AUTO_SUGGEST",
+      "tags": ["command", "init", "misunderstanding", "workflow"],
+      "priority": 9,
+      "usage_count": 1
     }
   },
-  "context_tags": ["windows", "npm", "git", "docker", "python", "file", "bash", "command"],
+  "context_tags": ["windows", "npm", "git", "docker", "python", "file", "bash", "command", "workflow"],
   "memory_priority": {
-    "frequent": ["windows_move_command"],
+    "frequent": ["windows_move_command", "init_command_misunderstanding"],
     "archive": []
   },
   "last_updated": "2025-10-14T00:00:00.000Z"

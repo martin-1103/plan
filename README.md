@@ -4,7 +4,7 @@
 
 | Command | Purpose | Order |
 |---|---|---|
-| `/init [target-folder]` | Initialize project with structure and database | 1️⃣ |
+| `/init [plan-path] [target-folder]` | Initialize project analysis with structure and database | 1️⃣ |
 | `/coreplan <plan-file-path>` | Generate coreplan from plan file | 2️⃣ |
 | `/breakdown-loop` | Breakdown long phases >60 minutes | 3️⃣ |
 | `/run-tasks` | Execute tasks in parallel | 4️⃣ |
@@ -16,8 +16,8 @@
 ### Quick Start
 
 ```bash
-# 1. Initialize project
-/init my-project
+# 1. Initialize project analysis
+/init @sample_prd.md rbac
 
 # 2. Generate development plan
 /coreplan sample_prd.md
@@ -33,15 +33,18 @@
 
 ## Command Details
 
-### 1. `/init` - Initialize Project
-**Purpose**: Create new project with optimal structure and database schema.
+### 1. `/init` - Initialize Project Analysis
+**Purpose**: Generate project analysis with optimal structure and database schema from plan file.
 
-**Syntax**: `/init <target-folder>`
+**Syntax**: `/init [plan-path] [target-folder]`
 
 **What it does**:
-- Generates database schema
-- Creates project directory structure
-- Sets up foundational files
+- Reads and analyzes plan file from `[plan-path]`
+- Generates database schema analysis → `.ai/database/`
+- Creates project structure analysis → `.ai/structure/`
+- Generates setup documentation → `.ai/structure/`
+
+**Important**: Creates ANALYSIS documents only, not actual project files
 
 ### 2. `/coreplan` - Generate Core Plan
 **Purpose**: Convert plan file into structured development phases.
@@ -77,10 +80,13 @@
 
 ## File Organization
 
-- **Plan files**: Store in `docs/` or `plans/`
-- **Generated outputs**: Saved to `.ai/` subdirectories
-- **Validation reports**: Found in `.ai/brain/validation/`
-- **Status logs**: Located in `.ai/brain/status/`
+- **Plan files**: Store in `docs/`, `plans/`, or root directory
+- **Database Analysis**: Generated in `.ai/database/`
+- **Structure Analysis**: Generated in `.ai/structure/`
+- **Development Plans**: Saved to `.ai/plan/` directory
+- **Validation Reports**: Found in `.ai/brain/validation/`
+- **Status Logs**: Located in `.ai/brain/status/`
+- **Mistakes & Learning**: Documented in `.ai/brain/mistakes.json`
 
 ## Getting Help
 
