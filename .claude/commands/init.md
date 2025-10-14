@@ -31,5 +31,3 @@ Initialize project dengan database schema dan structure generation dari plan fil
 - **Target-folder parameter diteruskan ke agents:**
   - `database-schema-designer` menerima PRD content + target-folder untuk schema generation
   - `project-structure-generator` menerima PRD content + target-folder untuk digunakan sebagai **root directory name** dalam output tree structure
-- Hasil schema disimpan di `.ai/schema/`
-- Hasil structure disimpan di `.ai/structure/structure.md`
