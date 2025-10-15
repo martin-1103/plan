@@ -5,9 +5,8 @@
 | Command | Purpose | Order |
 |---|---|---|
 | `/init [plan-path] [target-folder]` | Initialize project analysis with structure and database | 1️⃣ |
-| `/coreplan <plan-file-path>` | Generate coreplan from plan file | 2️⃣ |
-| `/breakdown-loop` | Breakdown long phases >60 minutes | 3️⃣ |
-| `/run-tasks` | Execute tasks in parallel | 4️⃣ |
+| `/breakdown-loop` | Breakdown long phases >60 minutes | 2️⃣ |
+| `/run-tasks` | Execute tasks in parallel | 3️⃣ |
 
 ---
 
@@ -19,13 +18,11 @@
 # 1. Initialize project analysis
 /init @sample_prd.md rbac
 
-# 2. Generate development plan
-/coreplan sample_prd.md
 
-# 3. Optimize phase durations
+# 2. Optimize phase durations
 /breakdown-loop
 
-# 4. Execute tasks
+# 3. Execute tasks
 /run-tasks
 ```
 
@@ -46,17 +43,8 @@
 
 **Important**: Creates ANALYSIS documents only, not actual project files
 
-### 2. `/coreplan` - Generate Core Plan
-**Purpose**: Convert plan file into structured development phases.
 
-**Syntax**: `/coreplan <plan-file-path>`
-
-**What it does**:
-- Analyzes plan file
-- Creates structured JSON phases
-- Saves to `.ai/plan/` directory
-
-### 3. `/breakdown-loop` - Optimize Phases
+### 2. `/breakdown-loop` - Optimize Phases
 **Purpose**: Break down phases that exceed 60 minutes into smaller tasks.
 
 **Syntax**: `/breakdown-loop`
@@ -66,7 +54,7 @@
 - Automatically breaks them down
 - Continues until all phases are optimized
 
-### 4. `/run-tasks` - Execute Tasks
+### 3. `/run-tasks` - Execute Tasks
 **Purpose**: Execute leaf tasks in parallel with quality control.
 
 **Syntax**: `/run-tasks`
