@@ -1,42 +1,9 @@
 {
-  "patterns": {
-    "windows_move_command": {
-      "trigger": "move: command not found|/usr/bin/bash: line 1: move|Error move not found",
-      "solution": "Use mv command instead of move for Linux/Windows Git Bash",
-      "action": "AUTO_SUGGEST",
-      "tags": ["windows", "bash", "file", "command"],
-      "priority": 7,
-      "usage_count": 1
-    },
-    "npm_permission": {
-      "trigger": "npm permission denied|access denied|EACCES|permission error npm",
-      "solution": "Run as admin or use sudo npm install",
-      "action": "AUTO_SUGGEST",
-      "tags": ["npm", "permission", "setup"],
-      "priority": 8,
-      "usage_count": 0
-    },
-    "windows_process_kill": {
-      "trigger": "process stuck|kill process|terminate|process hanging",
-      "solution": "taskkill /F /PID {pid}",
-      "action": "AUTO_SUGGEST",
-      "tags": ["windows", "process", "emergency"],
-      "priority": 9,
-      "usage_count": 0
-      },
-    "init_command_misunderstanding": {
-      "trigger": "/init.*target folder.*create files|generate project structure in filesystem",
-      "solution": "1. Understand that /init generates ANALYSIS documents in .ai/ folder, not actual project files\n2. database-schema-designer → generates schema analysis in .ai/database/ folder\n3. project-structure-generator → generates structure analysis in .ai/structure/ folder\n4. NEVER create actual project folders/files during /init command\n5. Output should be planning/analysis documents, not implementation",
-      "action": "AUTO_SUGGEST",
-      "tags": ["command", "init", "misunderstanding", "workflow"],
-      "priority": 9,
-      "usage_count": 1
-    }
-  },
+  "patterns": {},
   "context_tags": ["windows", "npm", "git", "docker", "python", "file", "bash", "command", "workflow"],
   "memory_priority": {
-    "frequent": ["windows_move_command", "init_command_misunderstanding"],
+    "frequent": [],
     "archive": []
   },
-  "last_updated": "2025-10-14T00:00:00.000Z"
+  "last_updated": "2025-10-15T00:00:00.000Z"
 }
